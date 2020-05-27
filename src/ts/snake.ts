@@ -30,8 +30,8 @@ export class Snake{
                     this.blocks[0].x = this.blocks[0].x + 1;
                     break;
                 case Vector.Down:
-                        this.blocks[0].y = this.blocks[0].y + 1;
-                        break;
+                    this.blocks[0].y = this.blocks[0].y + 1;
+                    break;
                 case Vector.Left:
                     this.blocks[0].x = this.blocks[0].x - 1;
                     break;
@@ -49,7 +49,7 @@ export class Snake{
     }
 
     private moveBody(head: Block){
-        for(var i = this.blocks.length-1; i > 0; i --){
+        for(var i=this.blocks.length-1; i>0; i--){
             this.blocks[i].x = this.blocks[i-1].x;
             this.blocks[i].y = this.blocks[i-1].y;
         }
@@ -74,9 +74,9 @@ export class Snake{
     private canSnakeGo(): boolean{
         let isCanGo = true;
         let block = this.blocks[0];
-        if(block.x < 0 ||
+        if(block.x < 1 ||
             block.x >= Parametrs.fieldWidth ||
-            block.y < 0 ||
+            block.y < 1 ||
             block.y >= Parametrs.fieldWidth ||
             this.headHitTheBody())
             {

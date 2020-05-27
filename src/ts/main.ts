@@ -1,12 +1,15 @@
 import { Game } from "./game";
-require('file-loader?name=[name].[ext]!../index.html');
+require("../style/main.css");
 
 let game = new Game();
 game.run();
 
-var  startGameButton = document.getElementById('startGame');
-startGameButton.onclick = function() {
+var  refreshButton = document.getElementById('refreshGame');
+refreshButton.onclick = function() {
     game.end();
+    game = null;
+    game = new Game();
+    game.run();
 }
 
 window.onresize= function(){
@@ -14,7 +17,12 @@ window.onresize= function(){
     game.grid.draw();
 };
 
+var runButton = document.getElementById('runGame');
+runButton.onclick = function(){
+    game.run();
+}
+
 var pauseButton = document.getElementById('pauseGame');
 pauseButton.onclick = function(){
-    alert("PAUSE");
+    game.pause();
 }

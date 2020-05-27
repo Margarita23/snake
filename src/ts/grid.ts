@@ -12,7 +12,11 @@ export class Grid {
     public totalWidth: number = document.getElementById('arena')!.offsetWidth;
     private gameSize: number = this.totalHeight <= this.totalWidth ? this.totalHeight : this.totalWidth;
     private cellSize: number = this.gameSize / Parametrs.fieldWidth;
-    private fieldFon: HTMLImageElement = new Image();
+    private foodBugGreen: HTMLImageElement = document.getElementById('bug--green') as HTMLImageElement;
+    private foodBugYellow: HTMLImageElement = document.getElementById('bug--yellow') as HTMLImageElement;
+    private foodBugRed: HTMLImageElement = document.getElementById('bug--red') as HTMLImageElement;
+    private foodMouse: HTMLImageElement = document.getElementById('mouse') as HTMLImageElement;
+    private rocks: HTMLImageElement = document.getElementById('rocks') as HTMLImageElement;
 
     public game: Game;
     public snake: Snake;
@@ -20,27 +24,38 @@ export class Grid {
 
     constructor(game: Game) {
         this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
-        this.canvas.width = this.gameSize;
-        this.canvas.height = this.gameSize;
+        this.canvas.width = this.gameSize + 2*this.cellSize;
+        this.canvas.height = this.gameSize + 2*this.cellSize;
         this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
         this.game = game;
         this.snake = game.snake;
         this.food = game.snake.myFood;
-        this.fieldFon.src = require('../assets/carbon.jpg');
     };
 
     draw(){
-        this.fon();
+        this.drawFence();
         this.drawFood();
         this.drawBlocks();
         this.drawFoodInStomach();
     }
 
-    fon(){
-        this.ctx.clearRect(0,0, this.totalWidth, this.totalHeight);
-        this.ctx.strokeStyle = ("rgb(255,255,255)");
-        this.ctx.lineWidth = 5;
-        this.ctx.strokeRect(0, 0, this.gameSize, this.gameSize);
+    drawFence() {
+        
+        for(let i=0; i<Parametrs.fieldWidth; i++) {
+            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, 0, i*this.cellSize, this.cellSize, this.cellSize);
+        }
+
+        for(let i=0; i<Parametrs.fieldWidth; i++) {
+            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, i*this.cellSize, 0, this.cellSize, this.cellSize);
+        }
+
+        for(let i=0; i<Parametrs.fieldWidth; i++) {
+            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, Parametrs.fieldWidth*this.cellSize, i*this.cellSize, this.cellSize, this.cellSize);
+        }
+
+        for(let i=0; i<=Parametrs.fieldWidth; i++) {
+            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, i*this.cellSize, Parametrs.fieldWidth*this.cellSize, this.cellSize, this.cellSize);
+        }
     }
 
     resize(): any{
@@ -110,9 +125,19 @@ export class Grid {
     }
 
     drawFood(){
-        this.ctx.fillStyle = "rgb(0, 100, 0)";
-        this.ctx.beginPath();
-        this.ctx.arc(this.food.x*this.cellSize + this.cellSize/2, this.food.y*this.cellSize + this.cellSize/2, this.cellSize/2,0,2 * Math.PI, false);
-        this.ctx.fill();
+        try{
+            switch(this.food.type){
+                case "bug--green" : this.ctx.drawImage(this.foodBugGreen, this.food.x*this.cellSize, this.food.y*this.cellSize, this.cellSize, this.cellSize); break;
+                case "bug--yellow" : this.ctx.drawImage(this.foodBugYellow, this.food.x*this.cellSize, this.food.y*this.cellSize, this.cellSize, this.cellSize); break;
+                case "bug--red" : this.ctx.drawImage(this.foodBugRed, this.food.x*this.cellSize, this.food.y*this.cellSize, this.cellSize, this.cellSize); break;
+                case "mouse" : this.ctx.drawImage(this.foodMouse, this.food.x*this.cellSize, this.food.y*this.cellSize, this.cellSize, this.cellSize); break;
+                default : this.ctx.drawImage(this.foodBugGreen, this.food.x*this.cellSize, this.food.y*this.cellSize, this.cellSize, this.cellSize); break;
+            }
+        } catch {
+            this.ctx.fillStyle = "rgb(0, 100, 0)";
+            this.ctx.beginPath();
+            this.ctx.arc(this.food.x*this.cellSize + this.cellSize/2, this.food.y*this.cellSize + this.cellSize/2, this.cellSize/2,0,2 * Math.PI, false);
+            this.ctx.fill();
+        }
     }
 }

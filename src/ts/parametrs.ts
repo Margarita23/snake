@@ -1,4 +1,4 @@
 export class Parametrs{
-    static readonly fieldWidth: number = 30;
-    static readonly fieldHeight: number = 30;
+    static readonly fieldWidth: number = 32;
+    static readonly fieldHeight: number = 32;
 }

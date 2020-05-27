@@ -351,7 +351,12 @@
     define("main", ["require", "exports", "game"], function (require, exports, game_1) {
         "use strict";
         exports.__esModule = true;
-        require('file-loader?name=[name].[ext]!../index.html');
+        // import { css } from '../style/main.css';
+        require("../style/main.css");
+        // const css = require('./test.css').toString();
+        // require('file-loader?name=[name].[ext]!../index.html');
+        // import html from '../index.html';
+        // require('html-loader!../index.html');
         var game = new game_1.Game();
         game.run();
         var startGameButton = document.getElementById('startGame');

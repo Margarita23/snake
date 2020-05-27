@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const config = {
@@ -13,16 +14,27 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.(ts|tsx)?$/,
         loader: 'ts-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
       },
       {
         test: /\.html$/,
         use: ['html-loader']
       },
       {
-        test: /\.(jpg|mp3)$/,
+        test: /\.(jpg|png|svg|mp3)$/,
         use:[
           {
             loader: 'file-loader',
@@ -38,7 +50,15 @@ const config = {
   },
   resolve: {
     extensions: [ '.ts', '.tsx', ".js", ".json"]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: false,
+      hash: true,
+      template: './src/index.html',
+      filename: 'index.html'
+    })
+  ]
 }
 
 module.exports = config;
