@@ -10,8 +10,8 @@ export class Food extends Block{
     }
     
     goOnField(): Food{
-        let x = Math.floor(Math.random() * Parametrs.fieldWidth)+1;
-        let y = Math.floor(Math.random() * Parametrs.fieldWidth)+1;
+        let x = Math.floor(Math.random() * (Parametrs.fieldWidth - 2)) + 1;
+        let y = Math.floor(Math.random() * (Parametrs.fieldWidth - 2)) + 1;
         this.x = x;
         this.y = y;
         this.type = this.setTypeFood();

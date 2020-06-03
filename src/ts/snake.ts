@@ -75,9 +75,9 @@ export class Snake{
         let isCanGo = true;
         let block = this.blocks[0];
         if(block.x < 1 ||
-            block.x >= Parametrs.fieldWidth ||
+            block.x >= (Parametrs.fieldWidth - 1) ||
             block.y < 1 ||
-            block.y >= Parametrs.fieldWidth ||
+            block.y >= (Parametrs.fieldWidth - 1) ||
             this.headHitTheBody())
             {
                 isCanGo = false;

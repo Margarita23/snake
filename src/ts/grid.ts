@@ -4,6 +4,7 @@ import { Game } from './game';
 import { Food } from './Food';
 import { Block } from './block';
 import { Vector } from './vector';
+import { gameOver } from './gameOver';
 
 export class Grid {
     private canvas: HTMLCanvasElement;
@@ -21,25 +22,29 @@ export class Grid {
     public game: Game;
     public snake: Snake;
     public food: Food;
+    public animateTimer: any;
+    public animateTimerShoter: any;
 
     constructor(game: Game) {
         this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
-        this.canvas.width = this.gameSize + 2*this.cellSize;
-        this.canvas.height = this.gameSize + 2*this.cellSize;
+        this.canvas.width = this.gameSize;
+        this.canvas.height = this.gameSize;
         this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
         this.game = game;
         this.snake = game.snake;
         this.food = game.snake.myFood;
     };
-
+    
     draw(){
         this.drawFence();
         this.drawFood();
         this.drawBlocks();
-        this.drawFoodInStomach();
+        this.drawFoodInStomach();        
     }
 
     drawFence() {
+        this.ctx.fillStyle = "rgb(30, 200, 0)";
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
         for(let i=0; i<Parametrs.fieldWidth; i++) {
             this.ctx.drawImage(this.rocks, 0, 0, 100, 90, 0, i*this.cellSize, this.cellSize, this.cellSize);
@@ -50,11 +55,11 @@ export class Grid {
         }
 
         for(let i=0; i<Parametrs.fieldWidth; i++) {
-            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, Parametrs.fieldWidth*this.cellSize, i*this.cellSize, this.cellSize, this.cellSize);
+            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, (Parametrs.fieldWidth-1)*this.cellSize, i*this.cellSize, this.cellSize, this.cellSize);
         }
 
-        for(let i=0; i<=Parametrs.fieldWidth; i++) {
-            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, i*this.cellSize, Parametrs.fieldWidth*this.cellSize, this.cellSize, this.cellSize);
+        for(let i=0; i<Parametrs.fieldWidth-1; i++) {
+            this.ctx.drawImage(this.rocks, 0, 0, 100, 90, i*this.cellSize, (Parametrs.fieldWidth-1)*this.cellSize, this.cellSize, this.cellSize);
         }
     }
 
@@ -139,5 +144,28 @@ export class Grid {
             this.ctx.arc(this.food.x*this.cellSize + this.cellSize/2, this.food.y*this.cellSize + this.cellSize/2, this.cellSize/2,0,2 * Math.PI, false);
             this.ctx.fill();
         }
+    }
+
+    showGameOverModalWindow(): void {
+        let _this = this;
+
+        _this.animateTimer = setInterval(function (){
+            _this.ctx.fillStyle = "rgb(50, 50, 50)";
+            for (let i=0; i < gameOver.length; i++){
+                _this.ctx.fillRect(_this.cellSize*gameOver[i][0], _this.cellSize*gameOver[i][1], _this.cellSize, _this.cellSize);
+            }    
+        }, 400);
+
+        _this.animateTimerShoter = setInterval(function (){
+            _this.ctx.fillStyle = "rgb(200, 200, 200)";
+            for (let i=0; i < gameOver.length; i++){
+                _this.ctx.fillRect(_this.cellSize*gameOver[i][0], _this.cellSize*gameOver[i][1], _this.cellSize, _this.cellSize);
+            }    
+        }, 800);
+    }
+
+    deleteGameOverModalWindow(): void {
+        clearInterval(this.animateTimer);
+        clearInterval(this.animateTimerShoter);
     }
 }

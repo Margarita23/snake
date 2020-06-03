@@ -5,17 +5,42 @@
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <title>Snake</title>
     </head>
-    <body id='game'>
-        <div id='arena'>
-            <canvas id='canvas'></canvas>
-        </div>
-        <div id='sidebar'>
-            <div id='score'></div>
-            <div class="buttons__container">
-                <p>Take a deep breath and <button type='button' id='refreshGame' onclick='refreshGame()'>refresh</button></p>
-                <button type='button' id='runGame' onclick='runGame()'>run</button>
-                <button type='button' id='pauseGame' onclick='pauseGame()'>pause</button>
+    <body>
+        <div class="wrapper" id='game'>
+            <h1 class="head"> Snake </h1>
+            <div class="container">
+                <div class="conteiner__banner-block">
+                    <p class="adv__header">Advertising (Тут может быть ваша реклама)</p>
+                    <ul class="list__adv">
+                        <li class="item__adv">
+                            <img class="adv adv__img" src="assets/game1.jpg" alt="game-advertising">
+                            <a href="#" class="adv__link">Перейти</a>
+                        </li>
+                        <li class="item__adv">
+                            <img class="adv adv__img" src="assets/game2.jpg" alt="game-advertising">
+                            <a href="#" class="adv__link">Перейти</a>
+                        </li>
+                        <li class="item__adv">
+                            <img class="adv adv__img" src="assets/game3.jpeg" alt="game-advertising">
+                            <a href="#" class="adv__link">Перейти</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="conteiner__game-process">
+                    <div class="arena" id='arena'>
+                        <canvas id='canvas'></canvas>
+                    </div>
+                </div>
+                <div class="container__game-statistic">
+                    <div class="score" id='score'></div>
+                    <div class="buttons__container">
+                        <button type='button' id='refreshGame' class="game-statistic__button button__refresh" onclick='refreshGame()'>Начать сначала</button>
+                        <button type='button' id='runGame' class="game-statistic__button button__start" onclick='runGame()'>Старт</button>
+                        <button type='button' id='pauseGame' class="game-statistic__button button__pause" onclick='pauseGame()'>Пауза</button>
+                    </div>
+                </div>
             </div>
+            <div class="footer">&#169; lildoc</div>
         </div>
         <div style="display:none;">
             <img id="rocks" src="assets/rocks.png" width="100px" height="100px">

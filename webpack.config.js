@@ -14,8 +14,8 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.css|scss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(ts|tsx)?$/,
@@ -34,7 +34,7 @@ const config = {
         use: ['html-loader']
       },
       {
-        test: /\.(jpg|png|svg|mp3)$/,
+        test: /\.(jpg|jpeg|png|svg|mp3)$/,
         use:[
           {
             loader: 'file-loader',

@@ -1,28 +1,51 @@
 import { Game } from "./game";
-require("../style/main.css");
+require("../style/main.scss");
 
 let game = new Game();
 game.run();
 
-var  refreshButton = document.getElementById('refreshGame');
+let  refreshButton = document.getElementById('refreshGame');
 refreshButton.onclick = function() {
-    game.end();
-    game = null;
-    game = new Game();
-    game.run();
+    game = refreshGame(game);
 }
 
-window.onresize= function(){
+function refreshGame(game: Game) {
+    game.grid.deleteGameOverModalWindow();
+    game.end();
+    game.grid.deleteGameOverModalWindow();
+    game = null;
+    game = new Game();
+
+    // game.grid.deleteGameOverModalWindow();
+    game.run();
+    return game;
+}
+
+window.onresize = function(){
     game.grid.resize();
     game.grid.draw();
 };
 
-var runButton = document.getElementById('runGame');
+let runButton = document.getElementById('runGame');
 runButton.onclick = function(){
-    game.run();
+    if(!game.isEnd){
+        game.run();
+    }
 }
 
-var pauseButton = document.getElementById('pauseGame');
+document.addEventListener("keypress", function(event){
+    switch(event.code){
+        case '32' : game.pause(); break;
+        case '13' : game.run(); break;
+        case '27' : game = refreshGame(game); break;
+        default : break;
+
+    }
+});
+
+let pauseButton = document.getElementById('pauseGame');
 pauseButton.onclick = function(){
-    game.pause();
+    if(!game.isEnd){
+        game.pause();
+    }
 }
